@@ -5,7 +5,6 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
 
 
-ALLOWED_EXTENSIONS = set(['jpg', 'jpeg'])
 app = Flask(__name__)
 CORS(app)
 app.config['UPLOAD_FOLDER'] = 'uploads'
@@ -33,16 +32,10 @@ def classify_image():
         image_data = tf.gfile.FastGFile(image_path, 'rb').read()
         predictions = persistent_session.run(softmax_tensor, {'DecodeJpeg/contents:0': image_data})
         top_k = predictions[0].argsort()[-len(predictions[0]):][::-1]
-        low_confidence = 0
         for node_id in top_k:
             human_string = label_lines[node_id]
             score = predictions[0][node_id]
-            if score < 0.90:
-                low_confidence += 1
             result[human_string] = str(score)
-
-        if low_confidence >= 2:
-            result['error'] = 'Unable to classify document type (Passport/Driving License)'
 
     return jsonify(result)
 
