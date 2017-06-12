@@ -52,4 +52,4 @@ if __name__ == '__main__':
     softmax_tensor = tf_graph.get_tensor_by_name('final_result:0')
     label_lines = [line.strip() for line in tf.gfile.GFile("output_labels.txt")]
     persistent_session = tf.Session(graph=tf_graph)
-    app.run(port=6500, debug=True)
+    app.run(port=9900, debug=True)
