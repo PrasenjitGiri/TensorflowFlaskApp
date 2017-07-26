@@ -1,2 +1,2 @@
 # TensorflowFlaskApp
-Right way to server inception model via Flask
+Python script to server TF models via Flask
